@@ -86,10 +86,13 @@ void GetOpenGLVersionInfo() {
 void VertexSpecification(){
 
     // CPU
-	const std::vector<GLfloat> vertexPosition{
-		-0.8f, -0.8f, 0.0f,
-		 0.8f, -0.8f, 0.0f,
-		 0.0f,  0.8f, 0.0f,
+	const std::vector<GLfloat> vertexData{
+		-0.8f, -0.8f, 0.0f, // vertex 1 position
+		 1.0f, 0.0f, 0.0f, // vertex 1 color
+		 0.8f, -0.8f, 0.0f, // vertex 2 position
+		 0.0f, 1.0f, 0.0f, // vertex 2 color
+		 0.0f,  0.8f, 0.0f, // vertex 3 position
+		 0.0f, 0.8f, 1.0f, // vertex 3 color
 	};
 
 	// GPU
@@ -101,8 +104,8 @@ void VertexSpecification(){
 	glGenBuffers(1, &gVertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER,
-				vertexPosition.size() * sizeof(GLfloat),
-				vertexPosition.data(),
+				vertexData.size() * sizeof(GLfloat),
+				vertexData.data(),
 				GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
@@ -110,14 +113,23 @@ void VertexSpecification(){
 						  3,
 						  GL_FLOAT,
 						  GL_FALSE,
-		                  0,
+		                  sizeof(GL_FLOAT)*6,
 						  (void*)0
+	);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1,
+						  3,
+						  GL_FLOAT,
+						  GL_FALSE,
+						  sizeof(GL_FLOAT)*6,
+						  (void*)(sizeof(GL_FLOAT)*3)
 	);
 
 	// cleanup
 	glBindVertexArray(0);
 	glDisableVertexAttribArray(0);
-	
+
 }
 
 void InitializeProgram() {
