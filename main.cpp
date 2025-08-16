@@ -87,12 +87,20 @@ void VertexSpecification(){
 
     // CPU
 	const std::vector<GLfloat> vertexData{
-		-0.8f, -0.8f, 0.0f, // vertex 1 position
-		 1.0f, 0.0f, 0.0f, // vertex 1 color
-		 0.8f, -0.8f, 0.0f, // vertex 2 position
-		 0.0f, 1.0f, 0.0f, // vertex 2 color
-		 0.0f,  0.8f, 0.0f, // vertex 3 position
-		 0.0f, 0.8f, 1.0f, // vertex 3 color
+		// Traingle 1
+		-0.5f, -0.5f, 0.0f,		// Left vertex position
+		 1.0f,  0.0f, 0.0f,		// color
+		 0.5f, -0.5f, 0.0f,		// Right vertex position
+		 0.0f,  1.0f, 0.0f,		// color
+		-0.5f,  0.5f, 0.0f,		// Top left vertex position
+		 0.0f,  0.0f, 1.0f,		// color
+		 // Traingle 2
+		 0.5f, -0.5f, 0.0f,		// Right vertex  position
+		 0.0f,  1.0f, 0.0f,		// color
+		 0.5f,  0.5f, 0.0f,		// Top-right vertex  position
+		 0.0f,  0.0f, 1.0f,		// color
+		-0.5f,  0.5f, 0.0f,		// Left vertex position
+		 0.0f,  0.0f, 1.0f		// color
 	};
 
 	// GPU
@@ -211,7 +219,7 @@ void Draw() {
 	glBindVertexArray(gVertexArrayObject);
 	glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObject);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 }
 
