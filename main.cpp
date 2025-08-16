@@ -15,8 +15,11 @@ SDL_GLContext	gOpenGLContext = nullptr;
 bool gQuit = false;
 
 //VAO and VBO
-GLuint gVertexArrayObject = 0;
-GLuint gVertexBufferObject = 0;
+GLuint gVertexArrayObject	= 0;
+GLuint gVertexBufferObject	= 0;
+
+//IBO
+GLuint gIndexBufferObject	= 0;
 
 // Program object for shaders
 GLuint gGraphicsPipelineShaderProgram = 0;
@@ -95,12 +98,9 @@ void VertexSpecification(){
 		-0.5f,  0.5f, 0.0f,		// Top left vertex position
 		 0.0f,  0.0f, 1.0f,		// color
 		 // Traingle 2
-		 0.5f, -0.5f, 0.0f,		// Right vertex  position
-		 0.0f,  1.0f, 0.0f,		// color
 		 0.5f,  0.5f, 0.0f,		// Top-right vertex  position
 		 0.0f,  0.0f, 1.0f,		// color
-		-0.5f,  0.5f, 0.0f,		// Left vertex position
-		 0.0f,  0.0f, 1.0f		// color
+
 	};
 
 	// GPU
@@ -114,6 +114,19 @@ void VertexSpecification(){
 	glBufferData(GL_ARRAY_BUFFER,
 				vertexData.size() * sizeof(GLfloat),
 				vertexData.data(),
+				GL_STATIC_DRAW);
+
+
+// indexBufferData
+
+	const std::vector<GLuint> indexBufferData{ 2,0,1, 3,2,1 };
+
+// Setup Index Buffer Object (IBO)
+	glGenBuffers(1, &gIndexBufferObject);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObject);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+				indexBufferData.size() * sizeof(GLuint),
+				indexBufferData.data(),
 				GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
@@ -219,7 +232,7 @@ void Draw() {
 	glBindVertexArray(gVertexArrayObject);
 	glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObject);
 
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 }
 
