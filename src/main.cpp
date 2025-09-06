@@ -24,6 +24,8 @@ GLuint gIndexBufferObject	= 0;
 // Program object for shaders
 GLuint gGraphicsPipelineShaderProgram = 0;
 
+float g_uOffset = 0.0f;
+
 std::string LoadShaderAsString(const std::string& filename) {
 	std::ifstream myFile(filename);
 	if (!myFile.is_open()) {
@@ -215,6 +217,16 @@ void Input() {
 		}
 	}
 
+	const bool *state = SDL_GetKeyboardState(NULL);
+	if (state[SDL_SCANCODE_UP]) {
+		g_uOffset += 0.01f;
+		std::cout << g_uOffset << std::endl;
+	}
+	if (state[SDL_SCANCODE_DOWN]) {
+		g_uOffset -= 0.01f;
+		std::cout << g_uOffset << std::endl;
+	}
+
 }
 
 void PreDraw() {
@@ -226,6 +238,15 @@ void PreDraw() {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 	glUseProgram(gGraphicsPipelineShaderProgram);
+
+	// passing Uniform variable to the shader 
+	GLint location = glGetUniformLocation(gGraphicsPipelineShaderProgram, "uOffset");
+	if (location >= 0) {
+		glUniform1f(location, g_uOffset);
+	}
+	else {
+		std::cout << "Can't find uOffset!" << std::endl;
+	}
 
 }
 
