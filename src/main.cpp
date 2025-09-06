@@ -129,6 +129,8 @@ void VertexSpecification(){
 				indexBufferData.data(),
 				GL_STATIC_DRAW);
 
+
+// VertexAttribArray
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0,
 						  3,
